@@ -27,8 +27,14 @@ permissions:
   contents: read      
 
 jobs:
+  first: 
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "$GITHUB_CONTEXT"
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    needs:
+      - first
     if: ${{ !github.event.pull_request.merged && github.event.review.state == 'approved'}}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."

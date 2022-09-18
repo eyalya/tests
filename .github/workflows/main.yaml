@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     # needs:
     #   - first
-    if: ${{ !github.event.pull_request.merged && github.event.review.state == 'approved' && github.event.review.user.login == 'eyal-midlink' }}
+    if: ${{ !github.event.pull_request.merged && github.event.review.state == 'approved' }} && ${{ github.event.review.user.login == 'eyal-midlink' || github.event.review.user.login == 'eyalya'}}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"

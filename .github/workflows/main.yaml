@@ -62,7 +62,7 @@ jobs:
   #       run: echo "$MATRIX_CONTEXT"
       - name: Show default environment variables
         run: |
-          echo "Review state ${{ github.event }}"" 
+          echo "Review state ${{ github.event }}"
   #         echo "The job_id is: $GITHUB_JOB"   # reference the default environment variables
   #         echo "The id of this action is: $GITHUB_ACTION"   # reference the default environment variables
   #         echo "The run id is: $GITHUB_RUN_ID"

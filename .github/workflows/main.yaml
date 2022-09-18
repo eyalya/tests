@@ -20,6 +20,8 @@ on:
     - 'synchronize'
   pull_request_review:
     types: [submitted]
+    branches:
+    - 'main'
 
 defaults:
   run:

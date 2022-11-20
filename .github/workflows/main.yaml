@@ -9,7 +9,7 @@ name: main_workflow
 on:
   push:
     branches:
-      - 'main'
+      - 'dev'
   # create:
   #   branches:
   #     - 'release/**'
@@ -78,17 +78,30 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - name: Integration Tests - All Envs    
+      # - name: Integration Tests - All Envs    
+      #   id: integration_test
+      #   run: |
+      #     echo $GITHUB_REF_NAME
+      #   continue-on-error: true
+      # - name: Set ENV specific variables
+      #   id: crate-run-envs
+      #   env:
+      #     VER: "pr${{ github.event.number }}_${{ github.event.pull_request.title }}_${{ github.event.pull_request.head.sha }}"
+      #   run: |
+      #     echo $VER
+      - name: test
         id: integration_test
         run: |
-          echo $GITHUB_REF_NAME
-        continue-on-error: true
-      - name: Set ENV specific variables
-        id: crate-run-envs
-        env:
-          VER: "pr${{ github.event.number }}_${{ github.event.pull_request.title }}_${{ github.event.pull_request.head.sha }}"
-        run: |
-          echo $VER
+          echo test > ddd
+      - name: Push version - Merge To Dev
+        uses: github-actions-x/commit@v2.9
+        with:
+          github-token: ${{ secrets.MONOREPO_AUTH_TOKEN }}
+          push-branch: 'dev'
+          commit-message: 'chore: bump version BLA'
+          files: ddd
+          name: automation-chores
+          email: automation-chores@ecoplant.co
     # needs:
     #   - first
     # if: ${{ !github.event.pull_request.merged && github.event.review.state == 'approved' }} && ${{ github.event.review.user.login == 'eyal-midlink' || github.event.review.user.login == 'eyalya'}}

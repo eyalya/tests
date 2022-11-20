@@ -17,9 +17,9 @@ on:
   #   - 'nx/apps/**'
   #   - 'nx/libs/**'
   #   - "nx/package.json"
-  # pull_request:
-  #   branches:
-  #   - 'main'
+  pull_request:
+    branches:
+    - 'main'
   #   - 'dev'
   #   types:
   #   - 'closed'

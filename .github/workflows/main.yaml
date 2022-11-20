@@ -7,22 +7,29 @@
 
 name: main_workflow
 on:
-  create:
+  push:
     branches:
-      - 'release/**'
+      - 'main'
+  # create:
+  #   branches:
+  #     - 'release/**'
+  #   paths:
+  #   - 'nx/apps/**'
+  #   - 'nx/libs/**'
+  #   - "nx/package.json"
   pull_request:
     branches:
     - 'main'
-    - 'dev'
-    types:
-    - 'closed'
-    - 'opened'
-    - 'reopened'
-    - 'synchronize'
-  pull_request_review:
-    types: [submitted]
-    branches:
-    - 'main'
+  #   - 'dev'
+  #   types:
+  #   - 'closed'
+  #   - 'opened'
+  #   - 'reopened'
+  #   - 'synchronize'
+  # pull_request_review:
+  #   types: [submitted]
+  #   branches:
+  #   - 'main'
 
 defaults:
   run:
@@ -70,18 +77,31 @@ jobs:
   #         echo "GitHub SHA: $GITHUB_SHA"
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    steps:
+      - name: Integration Tests - All Envs    
+        id: integration_test
+        run: |
+          echo $GITHUB_REF_NAME
+        continue-on-error: true
+      - name: Set ENV specific variables
+        id: crate-run-envs
+        if: steps.integration_test.outcome == 'success'
+        env:
+          VER: "pr${{ github.event.number }}_${{ github.event.pull_request.title }}_${{ github.event.pull_request.head.sha }}"
+        run: |
+          echo $VER
     # needs:
     #   - first
-    if: ${{ !github.event.pull_request.merged && github.event.review.state == 'approved' && ( github.event.review.user.login == 'eyal-midlink' || github.event.review.user.login == 'eyalya' )}}
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    # if: ${{ !github.event.pull_request.merged && github.event.review.state == 'approved' }} && ${{ github.event.review.user.login == 'eyal-midlink' || github.event.review.user.login == 'eyalya'}}
+    # steps:
+    #   - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+    #   - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+    #   - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+    #   - name: Check out repository code
+    #     uses: actions/checkout@v3
+    #   - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+    #   - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+    #   - name: List files in the repository
+    #     run: |
+    #       ls ${{ github.workspace }}
+    #   - run: echo "🍏 This job's status is ${{ job.status }}."

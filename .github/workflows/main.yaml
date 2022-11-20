@@ -100,20 +100,20 @@ jobs:
         id: integration_test
         run: |
           echo test1 > ddd
-          echo "{surf_master}={true}" >> $GITHUB_OUTPUT
+          echo "surf_master=true" >> $GITHUB_OUTPUT
       - name: test1
         id: test1
         env:
           SURF_MASTER: ${{ steps.integration_test.outputs.surf_master }}
         run: |
           echo $SURF_MASTER
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: automation-chores
-          author_email: automation-chores@ecoplant.co
-          message: 'chore: bump version BLA'
-          add: 'ddd'
+      # - name: Commit changes
+      #   uses: EndBug/add-and-commit@v9
+      #   with:
+      #     author_name: automation-chores
+      #     author_email: automation-chores@ecoplant.co
+      #     message: 'chore: bump version BLA'
+      #     add: 'ddd'
       # - name: Push version - Merge To Dev
       #   uses: github-actions-x/commit@v2.9
       #   with:

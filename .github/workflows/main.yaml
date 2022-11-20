@@ -99,7 +99,12 @@ jobs:
       - name: test
         id: integration_test
         run: |
-          echo test > ddd
+          echo test1 > ddd
+          echo "{surf_master}={true}" >> $GITHUB_OUTPUT
+      - name: test1
+        id: test1
+        run: |
+          echo ${{ step.integration_test.outputs.surf_master }}
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:

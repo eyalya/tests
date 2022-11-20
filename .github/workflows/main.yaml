@@ -103,8 +103,10 @@ jobs:
           echo "{surf_master}={true}" >> $GITHUB_OUTPUT
       - name: test1
         id: test1
+        env:
+          SURF_MASTER: ${{ steps.integration_test.outputs.surf_master }}
         run: |
-          echo ${{ steps.integration_test.outputs.surf_master }}
+          echo $SURF_MASTER
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:

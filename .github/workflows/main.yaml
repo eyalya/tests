@@ -85,7 +85,7 @@ jobs:
         continue-on-error: true
       - name: Set ENV specific variables
         id: crate-run-envs
-        if: steps.integration_test.outcome != 'success'
+        if: steps.integration_test.outcome == 'success'
         env:
           VER: "pr${{ github.event.number }}_${{ github.event.pull_request.title }}_${{ github.event.pull_request.head.sha }}"
         run: |

@@ -103,7 +103,7 @@ jobs:
           echo "surf_master=true" >> $GITHUB_OUTPUT
       - name: test1
         id: test1
-        if: github.event.pull_request.merged && env.TARGET_ENV == 'prod' $$ github.event.review.user.login == 'eyalya'
+        if: github.event.pull_request.merged && env.TARGET_ENV == 'prod' && github.event.review.user.login == 'eyalya'
         env:
           TARGET_ENV: prod
           SURF_MASTER: ${{ steps.integration_test.outputs.surf_master }}

@@ -82,7 +82,6 @@ jobs:
         id: integration_test
         run: |
           echo $GITHUB_REF_NAME
-          cat blabla
         continue-on-error: true
       - name: Set ENV specific variables
         id: crate-run-envs

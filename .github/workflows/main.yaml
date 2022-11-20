@@ -89,6 +89,10 @@ jobs:
       #     VER: "pr${{ github.event.number }}_${{ github.event.pull_request.title }}_${{ github.event.pull_request.head.sha }}"
       #   run: |
       #     echo $VER
+      - name: Standard checkout - All Beside Merge To Dev
+        uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
       - name: test
         id: integration_test
         run: |

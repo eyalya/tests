@@ -4,7 +4,7 @@
 ### Dev environment - Pr to dev + Merge to dev
 ### Stage environment - Creating Release branch + Pr to release branch
 ### Prod environment - Pr approved to main
-
+ 
 name: main_workflow
 on:
   push:
@@ -37,7 +37,8 @@ defaults:
 
 permissions:
   id-token: write
-  contents: read      
+  contents: read     
+  repository-projects: write 
 
 jobs:
   # first: 

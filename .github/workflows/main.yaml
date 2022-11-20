@@ -39,6 +39,7 @@ permissions:
   id-token: write
   contents: read     
   repository-projects: write 
+  actions: write
 
 jobs:
   # first: 

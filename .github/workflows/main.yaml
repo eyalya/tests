@@ -105,6 +105,7 @@ jobs:
         id: test1
         if: ${{ !github.event.pull_request.merged && env.TARGET_ENV == 'prod' && github.event.review.state == 'approved'}}
         env:
+          TARGET_ENV: prod
           SURF_MASTER: ${{ steps.integration_test.outputs.surf_master }}
         run: |
           echo $SURF_MASTER

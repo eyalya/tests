@@ -91,7 +91,7 @@ jobs:
       #   run: |
       #     echo $VER
       - name: Standard checkout - All Beside Merge To Dev
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
             fetch-depth: 0
             ref: 'dev'

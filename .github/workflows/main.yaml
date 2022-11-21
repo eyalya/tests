@@ -79,6 +79,7 @@ jobs:
   #         echo "GitHub SHA: $GITHUB_SHA"
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'create' || ( (startsWith(github.ref_name, 'release/') && (github.event.action != 'closed') )}}
     steps:
       # - name: Integration Tests - All Envs    
       #   id: integration_test
@@ -99,8 +100,15 @@ jobs:
       - name: test
         id: integration_test
         run: |
+          echo NX_BASE=git log --pretty=format:"%H" --merges -n 1 --skip=1  >> $GITHUB_ENV
+          echo NX_HEAD=git log --pretty=format:"%H" --merges -n 1           >> $GITHUB_ENV
+          echo $NX_BASE
+          echo $NX_HEAD
           echo test1 > ddd
           echo "surf_master=true" >> $GITHUB_OUTPUT
+      - run: |
+          echo "BASE: ${{ env.NX_BASE }}"
+          echo "HEAD: ${{ env.NX_HEAD }}"
       - name: test1
         id: test1
         if: github.event.pull_request.merged && env.TARGET_ENV == 'prod' && github.event.review.user.login == 'eyalya'

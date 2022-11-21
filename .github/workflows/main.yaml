@@ -109,6 +109,8 @@ jobs:
           echo $NX_HEAD
           echo test1 > ddd
           echo "surf_master=true" >> $GITHUB_OUTPUT
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
       - run: |
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"

@@ -79,7 +79,7 @@ jobs:
   #         echo "GitHub SHA: $GITHUB_SHA"
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'create' || ( (startsWith(github.ref_name, 'release/') && (github.event.action != 'closed') )}}
+    if: ${{ github.event_name != 'create' || ( (startsWith(github.ref_name, 'release/')) && (github.event.action != 'closed') )}}
     steps:
       # - name: Integration Tests - All Envs    
       #   id: integration_test

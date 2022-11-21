@@ -96,7 +96,7 @@ jobs:
       - name: Standard checkout - All Beside Merge To Dev
         uses: actions/checkout@v3
         with:
-            ref: 'dev'
+            ref: 'main'
             token: ${{ secrets.MONOREPO_AUTH_TOKEN }}
       - name: test
         id: integration_test

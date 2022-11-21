@@ -100,8 +100,8 @@ jobs:
       - name: test
         id: integration_test
         run: |
-          echo NX_BASE=git log --pretty=format:"%H" --merges -n 1 --skip=1  >> $GITHUB_ENV
-          echo NX_HEAD=git log --pretty=format:"%H" --merges -n 1           >> $GITHUB_ENV
+          echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1)  >> $GITHUB_ENV
+          echo NX_HEAD=$(git log --pretty=format:"%H" --merges -n 1)           >> $GITHUB_ENV
           echo $NX_BASE
           echo $NX_HEAD
           echo test1 > ddd

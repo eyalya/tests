@@ -10,6 +10,7 @@ on:
   push:
     branches:
       - 'dev'
+      - 'main'
   # create:
   #   branches:
   #     - 'release/**'

@@ -7,31 +7,14 @@
  
 name: main_workflow
 on:
-  push:
-    branches:
-      - 'dev'
-      - 'main'
-  # create:
-  #   branches:
-  #     - 'release/**'
-  #   paths:
-  #   - 'nx/apps/**'
-  #   - 'nx/libs/**'
-  #   - "nx/package.json"
   pull_request:
     branches:
-    - 'main'
-    - 'release/**'
-  #   - 'dev'
+    - '!main'
+    - '!dev'
     types:
-    - 'closed'
     - 'opened'
     - 'reopened'
     - 'synchronize'
-  # pull_request_review:
-  #   types: [submitted]
-  #   branches:
-  #   - 'main'
 
 defaults:
   run:

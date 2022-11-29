@@ -4,25 +4,21 @@
 ### Dev environment - Pr to dev + Merge to dev
 ### Stage environment - Creating Release branch + Pr to release branch
 ### Prod environment - Pr approved to main
-
+ 
 name: main_workflow
 on:
-  create:
-    branches:
-      - 'release/**'
   pull_request:
     branches:
-    - 'main'
-    - 'dev'
+    - '*'
+    # - '!main'
+    # - '!dev'
     types:
-    - 'closed'
     - 'opened'
     - 'reopened'
     - 'synchronize'
-  pull_request_review:
-    types: [submitted]
-    branches:
-    - 'main'
+  # push:
+  #   branches:
+  #     - 'release/tettet'
 
 defaults:
   run:
@@ -30,7 +26,9 @@ defaults:
 
 permissions:
   id-token: write
-  contents: read      
+  contents: read     
+  repository-projects: write 
+  actions: write
 
 jobs:
   # first: 
@@ -70,18 +68,80 @@ jobs:
   #         echo "GitHub SHA: $GITHUB_SHA"
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'create' || ( (startsWith(github.ref_name, 'release/')) && (github.event.action != 'closed') )}}
+    steps:
+      # - name: Integration Tests - All Envs    
+      #   id: integration_test
+      #   run: |
+      #     echo $GITHUB_REF_NAME
+      #   continue-on-error: true
+      # - name: Set ENV specific variables
+      #   id: crate-run-envs
+      #   env:
+      #     VER: "pr${{ github.event.number }}_${{ github.event.pull_request.title }}_${{ github.event.pull_request.head.sha }}"
+      #   run: |
+      #     echo $VER
+      - name: Standard checkout - All Beside Merge To Dev
+        uses: actions/checkout@v3
+        with:
+            ref: 'main'
+            fetch-depth: '0'
+            token: ${{ secrets.MONOREPO_AUTH_TOKEN }}
+      - run: echo "TARGET_ENV=dev" >> $GITHUB_ENV
+      - name: test
+        id: integration_test
+        if: ${{ env.TARGET_ENV == 'stage' || (env.TARGET_ENV == 'dev' && github.event.pull_request.merged ) }}
+        run: |
+          git log --pretty=format:"%H" --merges -n 1 --skip=1
+          echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1) 
+          echo NX_HEAD=$(git log --pretty=format:"%H" --merges -n 1)          
+          echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1)  >> $GITHUB_ENV
+          echo NX_HEAD=$(git log --pretty=format:"%H" --merges -n 1)           >> $GITHUB_ENV
+          echo $NX_BASE
+          echo $NX_HEAD
+          echo test1 > ddd
+          echo "surf_master=true" >> $GITHUB_OUTPUT
+      # - name: Setup upterm session
+      #   uses: lhotari/action-upterm@v1
+      - run: |
+          echo "BASE: ${{ env.NX_BASE }}"
+          echo "HEAD: ${{ env.NX_HEAD }}"
+      - name: test1
+        id: test1
+        if: github.event.pull_request.merged && env.TARGET_ENV == 'prod' && github.event.review.user.login == 'eyalya'
+        env:
+          TARGET_ENV: prod
+          SURF_MASTER: ${{ steps.integration_test.outputs.surf_master }}
+        run: |
+          echo $SURF_MASTER
+      # - name: Commit changes
+      #   uses: EndBug/add-and-commit@v9
+      #   with:
+      #     author_name: automation-chores
+      #     author_email: automation-chores@ecoplant.co
+      #     message: 'chore: bump version BLA'
+      #     add: 'ddd'
+      # - name: Push version - Merge To Dev
+      #   uses: github-actions-x/commit@v2.9
+      #   with:
+      #     github-token: ${{ secrets.MONOREPO_AUTH_TOKEN }}
+      #     push-branch: 'dev'
+      #     commit-message: 'chore: bump version BLA'
+      #     files: ddd
+      #     name: automation-chores
+      #     email: automation-chores@ecoplant.co
     # needs:
     #   - first
-    if: ${{ !github.event.pull_request.merged && github.event.review.state == 'approved' }} && ${{ github.event.review.user.login == 'eyal-midlink' || github.event.review.user.login == 'eyalya'}}
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    # if: ${{ !github.event.pull_request.merged && github.event.review.state == 'approved' }} && ${{ github.event.review.user.login == 'eyal-midlink' || github.event.review.user.login == 'eyalya'}}
+    # steps:
+    #   - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+    #   - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+    #   - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+    #   - name: Check out repository code
+    #     uses: actions/checkout@v3
+    #   - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+    #   - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+    #   - name: List files in the repository
+    #     run: |
+    #       ls ${{ github.workspace }}
+    #   - run: echo "🍏 This job's status is ${{ job.status }}."

@@ -15,6 +15,9 @@ on:
     - 'opened'
     - 'reopened'
     - 'synchronize'
+  push:
+    branches:
+      - 'release/tettet'
 
 defaults:
   run:
@@ -83,8 +86,10 @@ jobs:
             ref: 'main'
             fetch-depth: '0'
             token: ${{ secrets.MONOREPO_AUTH_TOKEN }}
+      - run: echo "TARGET_ENV=stage" >> $GITHUB_ENV
       - name: test
         id: integration_test
+        if: ${{ env.TARGET_ENV == 'stage' || (env.TARGET_ENV == 'dev' && github.event.pull_request.merged ) }}
         run: |
           git log --pretty=format:"%H" --merges -n 1 --skip=1
           echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1) 

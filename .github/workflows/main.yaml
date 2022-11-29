@@ -9,6 +9,7 @@ name: main_workflow
 on:
   pull_request:
     branches:
+    - '*'
     - '!main'
     - '!dev'
     types:

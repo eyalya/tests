@@ -8,8 +8,7 @@
 name: main_workflow
 on:
   pull_request:
-    branches:
-    - '*'
+   
     types:
     - 'opened'
     - 'reopened'

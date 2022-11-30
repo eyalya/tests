@@ -91,7 +91,7 @@ jobs:
       - run: echo "TARGET_ENV=dev" >> $GITHUB_ENV
       - name: test
         id: integration_test
-        if: ${{ env.TARGET_ENV == 'stage' || (env.TARGET_ENV == 'dev' && github.event.pull_request.merged ) }}
+        if: ${{ env.TARGET_ENV == 'stage' || (env.TARGET_ENV == 'dev' && !github.event.pull_request.merged ) }}
         run: |
           git log --pretty=format:"%H" --merges -n 1 --skip=1
           echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1) 

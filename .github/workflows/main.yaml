@@ -16,6 +16,7 @@ on:
     - 'opened'
     - 'reopened'
     - 'synchronize'
+    - 'closed'
   # push:
   #   branches:
   #     - 'release/tettet'

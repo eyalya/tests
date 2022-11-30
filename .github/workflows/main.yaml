@@ -105,6 +105,10 @@ jobs:
       # - name: Setup upterm session
       #   uses: lhotari/action-upterm@v1
       - run: |
+          echo $NX_BASE
+          unset NX_BASE
+          echo $NX_BASE
+      - run: |
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"
       - name: test1

@@ -3,35 +3,23 @@
 ### CICD runs on the following terms: 
 ### Dev environment - Pr to dev + Merge to dev
 ### Stage environment - Creating Release branch + Pr to release branch
-### Prod environment - Pr approved to main
+### Prod environment - Pr approved to main ###
  
 name: main_workflow
 on:
-  push:
-    branches:
-      - 'dev'
-      - 'main'
-  # create:
-  #   branches:
-  #     - 'release/**'
-  #   paths:
-  #   - 'nx/apps/**'
-  #   - 'nx/libs/**'
-  #   - "nx/package.json"
   pull_request:
     branches:
-    - 'main'
-    - 'release/**'
-  #   - 'dev'
+    - '**'
+    - '!main'
+    - '!dev'
     types:
-    - 'closed'
     - 'opened'
     - 'reopened'
     - 'synchronize'
-  # pull_request_review:
-  #   types: [submitted]
+    - 'closed'
+  # push:
   #   branches:
-  #   - 'main'
+  #     - 'release/tettet'
 
 defaults:
   run:
@@ -100,8 +88,10 @@ jobs:
             ref: 'main'
             fetch-depth: '0'
             token: ${{ secrets.MONOREPO_AUTH_TOKEN }}
+      - run: echo "TARGET_ENV=dev" >> $GITHUB_ENV
       - name: test
         id: integration_test
+        if: ${{ env.TARGET_ENV == 'stage' || (env.TARGET_ENV == 'dev' && !github.event.pull_request.merged ) }}
         run: |
           git log --pretty=format:"%H" --merges -n 1 --skip=1
           echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1) 

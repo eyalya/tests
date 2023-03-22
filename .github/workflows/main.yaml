@@ -69,8 +69,9 @@ jobs:
   #         echo "GitHub SHA: $GITHUB_SHA"
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'create' || ( (startsWith(github.ref_name, 'release/')) && (github.event.action != 'closed') )}}
+    if: github.event.pull_request.merged
     steps:
+        - run: echo hi
       # - name: Integration Tests - All Envs    
       #   id: integration_test
       #   run: |
@@ -82,43 +83,43 @@ jobs:
       #     VER: "pr${{ github.event.number }}_${{ github.event.pull_request.title }}_${{ github.event.pull_request.head.sha }}"
       #   run: |
       #     echo $VER
-      - name: Standard checkout - All Beside Merge To Dev
-        uses: actions/checkout@v3
-        with:
-            ref: 'main'
-            fetch-depth: '0'
-            token: ${{ secrets.MONOREPO_AUTH_TOKEN }}
-      - run: echo "TARGET_ENV=dev" >> $GITHUB_ENV
-      - name: test
-        id: integration_test
-        if: ${{ env.TARGET_ENV == 'stage' || (env.TARGET_ENV == 'dev' && !github.event.pull_request.merged ) }}
-        run: |
-          git log --pretty=format:"%H" --merges -n 1 --skip=1
-          echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1) 
-          echo NX_HEAD=$(git log --pretty=format:"%H" --merges -n 1)          
-          echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1)  >> $GITHUB_ENV
-          echo NX_HEAD=$(git log --pretty=format:"%H" --merges -n 1)           >> $GITHUB_ENV
-          echo $NX_BASE
-          echo $NX_HEAD
-          echo test1 > ddd
-          echo "surf_master=true" >> $GITHUB_OUTPUT
-      # - name: Setup upterm session
-      #   uses: lhotari/action-upterm@v1
-      - run: |
-          echo $NX_BASE
-          unset NX_BASE
-          echo $NX_BASE
-      - run: |
-          echo "BASE: ${{ env.NX_BASE }}"
-          echo "HEAD: ${{ env.NX_HEAD }}"
-      - name: test1
-        id: test1
-        if: github.event.pull_request.merged && env.TARGET_ENV == 'prod' && github.event.review.user.login == 'eyalya'
-        env:
-          TARGET_ENV: prod
-          SURF_MASTER: ${{ steps.integration_test.outputs.surf_master }}
-        run: |
-          echo $SURF_MASTER
+      # - name: Standard checkout - All Beside Merge To Dev
+      #   uses: actions/checkout@v3
+      #   with:
+      #       ref: 'main'
+      #       fetch-depth: '0'
+      #       token: ${{ secrets.MONOREPO_AUTH_TOKEN }}
+      # - run: echo "TARGET_ENV=dev" >> $GITHUB_ENV
+      # - name: test
+      #   id: integration_test
+      #   if: ${{ env.TARGET_ENV == 'stage' || (env.TARGET_ENV == 'dev' && !github.event.pull_request.merged ) }}
+      #   run: |
+      #     git log --pretty=format:"%H" --merges -n 1 --skip=1
+      #     echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1) 
+      #     echo NX_HEAD=$(git log --pretty=format:"%H" --merges -n 1)          
+      #     echo NX_BASE=$(git log --pretty=format:"%H" --merges -n 1 --skip=1)  >> $GITHUB_ENV
+      #     echo NX_HEAD=$(git log --pretty=format:"%H" --merges -n 1)           >> $GITHUB_ENV
+      #     echo $NX_BASE
+      #     echo $NX_HEAD
+      #     echo test1 > ddd
+      #     echo "surf_master=true" >> $GITHUB_OUTPUT
+      # # - name: Setup upterm session
+      # #   uses: lhotari/action-upterm@v1
+      # - run: |
+      #     echo $NX_BASE
+      #     unset NX_BASE
+      #     echo $NX_BASE
+      # - run: |
+      #     echo "BASE: ${{ env.NX_BASE }}"
+      #     echo "HEAD: ${{ env.NX_HEAD }}"
+      # - name: test1
+      #   id: test1
+      #   if: github.event.pull_request.merged && env.TARGET_ENV == 'prod' && github.event.review.user.login == 'eyalya'
+      #   env:
+      #     TARGET_ENV: prod
+      #     SURF_MASTER: ${{ steps.integration_test.outputs.surf_master }}
+      #   run: |
+      #     echo $SURF_MASTER
       # - name: Commit changes
       #   uses: EndBug/add-and-commit@v9
       #   with:

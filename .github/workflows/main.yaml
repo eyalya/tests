@@ -77,8 +77,8 @@ jobs:
           run: 
            echo "apps=[\"events-processor\", \"alert-eval\", \"engine-scheduler\", \"alert-admin\", \"station-admin\"]" >> $GITHUB_OUTPUT
         - run: |
-            echo ${{ steps.test.outputs.apps }}
-            for item in "${${{ steps.test.outputs.apps }}[@]}"
+            echo ${{ fromJSON(steps.test.outputs.apps) }}
+            for item in "${${{ fromJSON(steps.test.outputs.apps) }}[@]}"
             do
                 echo "hey $item"
             done

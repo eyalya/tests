@@ -17,9 +17,9 @@ on:
     - 'reopened'
     - 'synchronize'
     - 'closed'
-  # push:
-  #   branches:
-  #     - 'release/tettet'
+  push:
+    branches:
+      - 'release/tettet'
 
 defaults:
   run:

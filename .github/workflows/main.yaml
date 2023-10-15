@@ -27,7 +27,7 @@ defaults:
 
 permissions:
   id-token: write
-  contents: read     
+  contents: write     
   repository-projects: write 
   actions: write
 

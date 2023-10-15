@@ -17,9 +17,7 @@ on:
     - 'reopened'
     - 'synchronize'
     - 'closed'
-  push:
-    branches:
-      - 'release/tettet'
+  
 
 defaults:
   run:

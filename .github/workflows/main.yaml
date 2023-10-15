@@ -71,13 +71,13 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.event.pull_request.merged
     env:
-      APPS:             (events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
+      APPS: (events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
     steps:
         - run: |
             echo $APPS
             for item in "${APPS[@]}"
             do
-                echo "$item"
+                echo "hey $item"
             done
       # - name: Integration Tests - All Envs    
       #   id: integration_test

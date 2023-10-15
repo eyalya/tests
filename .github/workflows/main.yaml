@@ -73,7 +73,12 @@ jobs:
     env:
       APPS:             (events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
     steps:
-        - run: echo $APPS
+        - run: |
+          echo $APPS
+          for item in "${APPS[@]}"
+          do
+              echo "$item"
+          done
       # - name: Integration Tests - All Envs    
       #   id: integration_test
       #   run: |

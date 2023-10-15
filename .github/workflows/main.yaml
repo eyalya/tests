@@ -80,6 +80,7 @@ jobs:
             do
                 echo "hey $item"
             done
+            echo hey
         # - name: Create Release
         #   id: create_release
         #   uses: ncipollo/release-action@v1

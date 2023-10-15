@@ -77,11 +77,28 @@ jobs:
           run: 
            echo "apps=[\"events-processor\", \"alert-eval\", \"engine-scheduler\", \"alert-admin\", \"station-admin\"]" >> $GITHUB_OUTPUT
         - run: |
+            APPS=(events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
             echo ${{ fromJSON(steps.test.outputs.apps) }}
             for item in "${${{ fromJSON(steps.test.outputs.apps) }}[@]}"
             do
                 echo "hey $item"
             done
+        - name: Create Release
+          id: create_release
+          uses: ncipollo/release-action@v1
+          env:
+            LAST_VERSION: ${{ steps.version_bump.outputs.last_version }}
+            VERSION: ${{ steps.version_bump.outputs.newTag }}
+          with:
+            tag: ${{ env.VERSION }}
+            name: Ecoplant-Release-${{ env.VERSION }}
+            body: |
+              ## What's Changed:
+              ### ${{ github.event.pull_request.title }}
+              ${{ github.event.pull_request.body }}
+              
+              ________________________________________________________
+              Full Changelog: Ecoplant-Release-${{ env.VERSION }}...Ecoplant-Release-${{ env.LAST_VERSION }}
       # - name: Integration Tests - All Envs    
       #   id: integration_test
       #   run: |

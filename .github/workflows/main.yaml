@@ -87,8 +87,8 @@ jobs:
           id: create_release
           uses: ncipollo/release-action@v1
           env:
-            LAST_VERSION: ${{ steps.version_bump.outputs.last_version }}
-            VERSION: ${{ steps.version_bump.outputs.newTag }}
+            LAST_VERSION: "1.0.0"
+            VERSION: "1.0.1"
           with:
             tag: ${{ env.VERSION }}
             name: Ecoplant-Release-${{ env.VERSION }}

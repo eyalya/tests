@@ -48,7 +48,7 @@ on:
         - custom
       run_integration: 
         type: boolean
-        description: Select if to run integration tests
+        description: Run integration tests
         required: true
       tag:   
         description: "Insert version number" 
@@ -117,15 +117,15 @@ jobs:
     steps:
         - id: test
           run: 
-           echo "apps=[\"events-processor\", \"alert-eval\", \"engine-scheduler\", \"alert-admin\", \"station-admin\"]" >> $GITHUB_OUTPUT
-        - run: |
-            APPS=(events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
-            echo ${{ fromJSON(steps.test.outputs.apps) }}
-            for item in "${${{ fromJSON(steps.test.outputs.apps) }}[@]}"
-            do
-                echo "hey $item"
-            done
-            echo hey
+           echo ${{ inputs.run_integration }}
+        # - run: |
+        #     APPS=(events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
+        #     echo ${{ fromJSON(steps.test.outputs.apps) }}
+        #     for item in "${${{ fromJSON(steps.test.outputs.apps) }}[@]}"
+        #     do
+        #         echo "hey $item"
+        #     done
+        #     echo hey
         # - name: Create Release
         #   id: create_release
         #   uses: ncipollo/release-action@v1

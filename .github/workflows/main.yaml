@@ -125,6 +125,9 @@ jobs:
             echo email: ${{ github.event.pull_request.user.email }}
             echo comments
             echo ${{ github.event.pull_request.comments }}
+            echo body
+            echo ${{ github.event.pull_request.body }}
+
         # - run: |
         #     APPS=(events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
         #     echo ${{ fromJSON(steps.test.outputs.apps) }}

@@ -7,6 +7,9 @@
  
 name: main_workflow
 on:
+  push:
+    branches:
+    - '**'
   # workflow_dispatch:
   #   inputs:
   #     environment: 

@@ -7,60 +7,60 @@
  
 name: main_workflow
 on:
-  workflow_dispatch:
-    inputs:
-      environment: 
-        type: choice
-        description: Select the environment
-        required: true
-        options:
-        - dev
-        - qa
-        - stage
-        - prod
-      app: 
-        type: choice
-        description: Select the app to deploy
-        required: true
-        options:
-        - all
-        - events-processor
-        - alert-eval
-        - engine-scheduler
-        - alert-admin
-        - station-admin
-        - customer-admin
-        - rule-engine
-        - data-api
-        - notification-admin
-        - subscription-admin
-        - msp-admin
-        - report-generator
-        - ecobox-api
-        - engine-configurator
-        - value-dashboard-api
-      type: 
-        type: choice
-        description: Select the build type
-        required: true
-        options:
-        - hotfix
-        - custom
-      run_integration: 
-        type: boolean
-        description: Run integration tests
-        required: true
-      tag:   
-        description: "Insert version number" 
-  # pull_request:
-  #   branches:
-  #   - '**'
-  #   - '!dev'
-  #   types:
-  #   - 'opened'
-  #   - 'reopened'
-  #   - 'synchronize'
-  #   - 'closed'
+  # workflow_dispatch:
+  #   inputs:
+  #     environment: 
+  #       type: choice
+  #       description: Select the environment
+  #       required: true
+  #       options:
+  #       - dev
+  #       - qa
+  #       - stage
+  #       - prod
+  #     app: 
+  #       type: choice
+  #       description: Select the app to deploy
+  #       required: true
+  #       options:
+  #       - all
+  #       - events-processor
+  #       - alert-eval
+  #       - engine-scheduler
+  #       - alert-admin
+  #       - station-admin
+  #       - customer-admin
+  #       - rule-engine
+  #       - data-api
+  #       - notification-admin
+  #       - subscription-admin
+  #       - msp-admin
+  #       - report-generator
+  #       - ecobox-api
+  #       - engine-configurator
+  #       - value-dashboard-api
+  #     type: 
+  #       type: choice
+  #       description: Select the build type
+  #       required: true
+  #       options:
+  #       - hotfix
+  #       - custom
+  #     run_integration: 
+  #       type: boolean
+  #       description: Run integration tests
+  #       required: true
+  #     tag:   
+  #       description: "Insert version number" 
+  pull_request:
+    branches:
+    - '**'
+    - '!dev'
+    types:
+    - 'opened'
+    - 'reopened'
+    - 'synchronize'
+    - 'closed'
   
 
 defaults:
@@ -116,8 +116,12 @@ jobs:
       APPS: (events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
     steps:
         - id: test
-          run: 
-           echo ${{ inputs.run_integration }}
+          run: |
+            echo ${{ inputs.run_integration }}
+            echo "title"
+            ${{ github.event.pull_request.title }}
+            echo "body"
+            ${{ github.event.pull_request.body }}
         # - run: |
         #     APPS=(events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
         #     echo ${{ fromJSON(steps.test.outputs.apps) }}

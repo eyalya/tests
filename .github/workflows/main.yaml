@@ -7,6 +7,9 @@
  
 name: main_workflow
 on:
+  push:
+    branches:
+    - '**'
   # workflow_dispatch:
   #   inputs:
   #     environment: 
@@ -119,9 +122,35 @@ jobs:
           run: |
             echo ${{ inputs.run_integration }}
             echo "title"
-            ${{ github.event.pull_request.title }}
-            echo "body"
-            ${{ github.event.pull_request.body }}
+            echo title: ${{ github.event.pull_request.title }}
+            echo "user"
+            echo avatar: ${{ github.event.pull_request.user.avatar_url }}
+            echo email: ${{ github.event.pull_request.user.email }}
+            echo comments
+            echo ${{ github.event.pull_request.comments }}
+            echo body
+            echo ${{ github.event.pull_request.body }}
+            echo commit
+            echo ${{ github.sha }}
+        - uses: olegtarasov/get-tag@v2.1.2
+          id: tagName
+        - run: echo "${{ steps.tagName.outputs.tag }}"
+        # - name: Create Release
+        #   id: create_release
+        #   uses: ncipollo/release-action@v1
+        #   env:
+        #     LAST_VERSION: ${{ steps.version_bump.outputs.last_version }}
+        #     VERSION: ${{ steps.version_bump.outputs.newTag }}
+        #   with:
+        #     tag: test
+        #     name: Ecoplant-Release-test
+        #     body: |
+        #       ## What's Changed:
+        #       ### ${{ github.event.pull_request.title }}
+        #       ${{ github.event.pull_request.body }}
+              
+        #       ________________________________________________________
+        #       Full Changelog: Ecoplant-Release-${{ env.LAST_VERSION }}...Ecoplant-Release-test
         # - run: |
         #     APPS=(events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
         #     echo ${{ fromJSON(steps.test.outputs.apps) }}

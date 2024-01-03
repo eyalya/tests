@@ -7,19 +7,61 @@
  
 name: main_workflow
 on:
+  # workflow_dispatch:
+  #   inputs:
+  #     environment: 
+  #       type: choice
+  #       description: Select the environment
+  #       required: true
+  #       options:
+  #       - dev
+  #       - qa
+  #       - stage
+  #       - prod
+  #     app: 
+  #       type: choice
+  #       description: Select the app to deploy
+  #       required: true
+  #       options:
+  #       - all
+  #       - events-processor
+  #       - alert-eval
+  #       - engine-scheduler
+  #       - alert-admin
+  #       - station-admin
+  #       - customer-admin
+  #       - rule-engine
+  #       - data-api
+  #       - notification-admin
+  #       - subscription-admin
+  #       - msp-admin
+  #       - report-generator
+  #       - ecobox-api
+  #       - engine-configurator
+  #       - value-dashboard-api
+  #     type: 
+  #       type: choice
+  #       description: Select the build type
+  #       required: true
+  #       options:
+  #       - hotfix
+  #       - custom
+  #     run_integration: 
+  #       type: boolean
+  #       description: Run integration tests
+  #       required: true
+  #     tag:   
+  #       description: "Insert version number" 
   pull_request:
     branches:
     - '**'
-    - '!main'
     - '!dev'
     types:
     - 'opened'
     - 'reopened'
     - 'synchronize'
     - 'closed'
-  # push:
-  #   branches:
-  #     - 'release/tettet'
+  
 
 defaults:
   run:
@@ -27,7 +69,7 @@ defaults:
 
 permissions:
   id-token: write
-  contents: read     
+  contents: write     
   repository-projects: write 
   actions: write
 
@@ -69,9 +111,41 @@ jobs:
   #         echo "GitHub SHA: $GITHUB_SHA"
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
+    # if: github.event.pull_request.merged && startsWith(github.head_ref, 'hotfix/')
+    env:
+      APPS: (events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
     steps:
-        - run: echo hi
+        - id: test
+          run: |
+            echo ${{ inputs.run_integration }}
+            echo "title"
+            ${{ github.event.pull_request.title }}
+            echo "body"
+            ${{ github.event.pull_request.body }}
+        # - run: |
+        #     APPS=(events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
+        #     echo ${{ fromJSON(steps.test.outputs.apps) }}
+        #     for item in "${${{ fromJSON(steps.test.outputs.apps) }}[@]}"
+        #     do
+        #         echo "hey $item"
+        #     done
+        #     echo hey
+        # - name: Create Release
+        #   id: create_release
+        #   uses: ncipollo/release-action@v1
+        #   env:
+        #     LAST_VERSION: "1.0.0"
+        #     VERSION: "1.0.1"
+        #   with:
+        #     tag: ${{ env.VERSION }}
+        #     name: Ecoplant-Release-${{ env.VERSION }}
+        #     body: |
+        #       ## What's Changed:
+        #       ### ${{ github.event.pull_request.title }}
+        #       ${{ github.event.pull_request.body }}
+              
+        #       ________________________________________________________
+        #       Full Changelog: Ecoplant-Release-${{ env.VERSION }}...Ecoplant-Release-${{ env.LAST_VERSION }}
       # - name: Integration Tests - All Envs    
       #   id: integration_test
       #   run: |

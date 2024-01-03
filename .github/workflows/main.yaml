@@ -127,6 +127,8 @@ jobs:
             echo ${{ github.event.pull_request.comments }}
             echo body
             echo ${{ github.event.pull_request.body }}
+            echo commit
+            echo ${{ github.sha }}
         - uses: olegtarasov/get-tag@v2.1.2
           id: tagName
         - run: echo "${{ steps.tagName.outputs.tag }}"

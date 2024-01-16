@@ -7,60 +7,54 @@
  
 name: main_workflow
 on:
-  # workflow_dispatch:
-  #   inputs:
-  #     environment: 
-  #       type: choice
-  #       description: Select the environment
-  #       required: true
-  #       options:
-  #       - dev
-  #       - qa
-  #       - stage
-  #       - prod
-  #     app: 
-  #       type: choice
-  #       description: Select the app to deploy
-  #       required: true
-  #       options:
-  #       - all
-  #       - events-processor
-  #       - alert-eval
-  #       - engine-scheduler
-  #       - alert-admin
-  #       - station-admin
-  #       - customer-admin
-  #       - rule-engine
-  #       - data-api
-  #       - notification-admin
-  #       - subscription-admin
-  #       - msp-admin
-  #       - report-generator
-  #       - ecobox-api
-  #       - engine-configurator
-  #       - value-dashboard-api
-  #     type: 
-  #       type: choice
-  #       description: Select the build type
-  #       required: true
-  #       options:
-  #       - hotfix
-  #       - custom
-  #     run_integration: 
-  #       type: boolean
-  #       description: Run integration tests
-  #       required: true
-  #     tag:   
-  #       description: "Insert version number" 
-  pull_request:
-    branches:
-    - '**'
-    - '!dev'
-    types:
-    - 'opened'
-    - 'reopened'
-    - 'synchronize'
-    - 'closed'
+  # push:
+  #   branches:
+  #   - '**'
+  workflow_dispatch:
+    inputs:
+      app: 
+        type: choice
+        description: Select the app to build
+        required: true
+        options:
+        - affected
+        - all
+        - events-processor
+        - alert-eval
+        - engine-scheduler
+        - alert-admin
+        - station-admin
+        - customer-admin
+        - rule-engine
+        - data-api
+        - notification-admin
+        - subscription-admin
+        - msp-admin
+        - report-generator
+        - ecobox-api
+        - engine-configurator
+        - value-dashboard-api
+      type: 
+        type: choice
+        description: Select the build type
+        required: true
+        options:
+        - custom
+        - hotfix
+      run_integration: 
+        type: boolean
+        description: Run integration tests
+      tag:   
+        description: "Insert custom tag" 
+  # pull_request:
+  #   branches:
+  #   - '**'
+  #   - '!dev'
+  #   types:
+  #   - 'opened'
+  #   - 'reopened'
+  #   - 'synchronize'
+  #   - 'closed'
   
 
 defaults:
@@ -74,13 +68,21 @@ permissions:
   actions: write
 
 jobs:
-  # first: 
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Dump GitHub context
-  #       env:
-  #         GITHUB_CONTEXT: ${{ toJson(github) }}
-  #       run: echo "$GITHUB_CONTEXT"
+  first: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Integration Tests - All
+        id: integration_test_all
+        if: ${{ inputs.run_integration == 'true' && inputs.app == 'all' }}
+        run: echo Works
+      - name: Run Integration Tests - Affected
+        id: integration_test_affected
+        if: ${{ inputs.run_integration == 'true' && inputs.app == 'affected' }}
+        run: echo Works
+      - name: Run Integration Tests - Selected
+        id: integration_test_selected
+        if: ${{ inputs.run_integration == 'true' && inputs.app != 'all' && inputs.app != 'affected' }}
+        run: echo Works
   #     - name: Dump job context
   #       env:
   #         JOB_CONTEXT: ${{ toJson(job) }}

@@ -75,6 +75,10 @@ jobs:
         id: integration_test_all
         if: ${{ inputs.run_integration == 'true'}}
         run: echo Works
+      - name: Run Integration Tests - nnn
+        id: integration_test_all_test
+        if: ${{ inputs.run_integration }}
+        run: echo Works
       - name: Run Integration Tests - Affected
         id: integration_test_affected
         if: ${{ inputs.run_integration == 'true' && inputs.app == 'affected' }}

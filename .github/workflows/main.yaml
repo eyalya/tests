@@ -73,19 +73,15 @@ jobs:
     steps:
       - name: Run Integration Tests - All
         id: integration_test_all
-        if: ${{ inputs.run_integration == 'true'}}
-        run: echo Works
-      - name: Run Integration Tests - nnn
-        id: integration_test_all_test
-        if: ${{ inputs.run_integration }}
+        if: ${{ inputs.run_integration && inputs.app == 'all'}}
         run: echo Works
       - name: Run Integration Tests - Affected
         id: integration_test_affected
-        if: ${{ inputs.run_integration == 'true' && inputs.app == 'affected' }}
+        if: ${{ inputs.run_integration && inputs.app == 'affected' }}
         run: echo Works
       - name: Run Integration Tests - Selected
         id: integration_test_selected
-        if: ${{ inputs.run_integration == 'true' && inputs.app != 'all' && inputs.app != 'affected' }}
+        if: ${{ inputs.run_integration  && inputs.app != 'all' && inputs.app != 'affected' }}
         run: echo Works
   #     - name: Dump job context
   #       env:

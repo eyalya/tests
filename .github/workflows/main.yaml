@@ -6,7 +6,7 @@
 ### Prod environment - Pr approved to main ###
  
 name: main_workflow
-run-name: Deploy Versrion ${{ inputs.tag }} to ${{ inputs.environment }}
+run-name: Deploy Versrion ${{ github.action_ref }} to ${{ inputs.environment }}
 on:
   # push:
   #   branches:

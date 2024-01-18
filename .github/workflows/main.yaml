@@ -6,6 +6,7 @@
 ### Prod environment - Pr approved to main ###
  
 name: main_workflow
+run-name: Deploy Versrion ${{ inputs.tag }} to ${{ inputs.environment }}
 on:
   # push:
   #   branches:
@@ -34,6 +35,15 @@ on:
         - ecobox-api
         - engine-configurator
         - value-dashboard-api
+      environment: 
+        type: choice
+        description: Select the environment
+        required: true
+        options:
+        - dev
+        - qa
+        - stage
+        - prod
       type: 
         type: choice
         description: Select the build type
@@ -81,7 +91,7 @@ jobs:
         run: echo Works
       - name: Run Integration Tests - Selected
         id: integration_test_selected
-        if: ${{ inputs.run_integration  && inputs.app != 'all' && inputs.app != 'affected' }}
+        if: ${{ inputs.run_integration && inputs.app != 'all' && inputs.app != 'affected' }}
         run: echo Works
   #     - name: Dump job context
   #       env:

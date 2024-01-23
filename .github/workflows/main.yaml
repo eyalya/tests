@@ -88,7 +88,7 @@ jobs:
         fetch-depth: 0
     - name: Set version ENV
       run: |
-        ./validate_tag.sh -t ${{ inputs.type }}_${{ inputs.tag }}
+        ./validate_tag.sh -t "${{ inputs.type }}_${{ inputs.tag }}"
         echo "APP_VERSION: ${{ env.VALIDATED_TAG }}
         echo "APP_VERSION=$VALIDATED_TAG" >> $GITHUB_ENV   
     - name: Check

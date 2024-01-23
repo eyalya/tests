@@ -81,18 +81,26 @@ jobs:
   first: 
     runs-on: ubuntu-latest
     steps:
-      - name: Run Integration Tests - All
-        id: integration_test_all
-        if: ${{ inputs.run_integration && inputs.app == 'all'}}
-        run: echo Works
-      - name: Run Integration Tests - Affected
-        id: integration_test_affected
-        if: ${{ inputs.run_integration && inputs.app == 'affected' }}
-        run: echo Works
-      - name: Run Integration Tests - Selected
-        id: integration_test_selected
-        if: ${{ inputs.run_integration && inputs.app != 'all' && inputs.app != 'affected' }}
-        run: echo Works
+    - name: Set version ENV
+      run: |
+        ./validate_tag.sh -t ${{ inputs.type }}_${{ inputs.tag }}
+        echo "APP_VERSION: ${{ env.VALIDATED_TAG }}
+        echo "APP_VERSION=$VALIDATED_TAG" >> $GITHUB_ENV   
+    - name: Check
+      run: echo $APP_VERSION
+
+      # - name: Run Integration Tests - All
+      #   id: integration_test_all
+      #   if: ${{ inputs.run_integration && inputs.app == 'all'}}
+      #   run: echo Works
+      # - name: Run Integration Tests - Affected
+      #   id: integration_test_affected
+      #   if: ${{ inputs.run_integration && inputs.app == 'affected' }}
+      #   run: echo Works
+      # - name: Run Integration Tests - Selected
+      #   id: integration_test_selected
+      #   if: ${{ inputs.run_integration && inputs.app != 'all' && inputs.app != 'affected' }}
+      #   run: echo Works
   #     - name: Dump job context
   #       env:
   #         JOB_CONTEXT: ${{ toJson(job) }}

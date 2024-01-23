@@ -1,11 +1,17 @@
 name: set_variables
+run-name: set_variables to ${{ inputs.environment }}
 
 on:
-  workflow_call:
-    inputs: 
-      environment:
+  workflow_dispatch:
+    environment: 
+        type: choice
+        description: Select the environment
         required: true
-        type: string 
+        options:
+        - dev
+        - qa
+        - stage
+        - prod
     outputs:
       bucket_name:
         value: ${{ jobs.set_variables.outputs.bucket_name }}
@@ -17,6 +23,8 @@ on:
         value: ${{ jobs.set_variables.outputs.iam_role }}
       env:
         value: ${{ jobs.set_variables.outputs.env }}
+      deployment:
+        value: ${{ jobs.set_variables.outputs.deployment }}
           
 jobs:
   set_variables:

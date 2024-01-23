@@ -89,8 +89,8 @@ jobs:
     - name: Set version ENV
       run: |
         ./validate_tag.sh -t "${{ inputs.type }}_${{ inputs.tag }}"
-        # echo "APP_VERSION: ${{ env.VALIDATED_TAG }}
-        # echo "APP_VERSION=$VALIDATED_TAG" >> $GITHUB_ENV   
+        echo "APP_VERSION: ${{ env.VALIDATED_TAG }}"
+        echo "APP_VERSION=$VALIDATED_TAG" >> $GITHUB_ENV   
     - name: Check
       run: echo $APP_VERSION
 

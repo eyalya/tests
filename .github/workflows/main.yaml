@@ -81,6 +81,11 @@ jobs:
   first: 
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout Repository
+      id: version_bump_checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - name: Set version ENV
       run: |
         ./validate_tag.sh -t ${{ inputs.type }}_${{ inputs.tag }}

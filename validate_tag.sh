@@ -31,4 +31,4 @@ while getopts t: options; do
     esac
 done
 echo $tag
-# echo "VALIDATED_TAG=$tag" >> $GITHUB_ENV
+echo "VALIDATED_TAG=$tag" >> $GITHUB_ENV

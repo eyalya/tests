@@ -30,5 +30,5 @@ while getopts t: options; do
         *)echo "invalid option";;
     esac
 done
-echo $tag
-echo "VALIDATED_TAG=$tag" >> $GITHUB_ENV
+echo "APP_VERSION: $tag"
+echo "APP_VERSION=$VALIDATED_TAG" >> $GITHUB_ENV   

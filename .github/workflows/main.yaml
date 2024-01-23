@@ -135,6 +135,11 @@ jobs:
     env:
       APPS: (events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
     steps:
+        - name: Checkout Repository
+          id: version_bump_checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
         - id: test
           run: |
             echo ${{ inputs.run_integration }}

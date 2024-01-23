@@ -24,11 +24,11 @@ function validateTag() {
 
 # fail the buiold if its longer than 128 chars
 
-while getopts i:t:u: options; do
+while getopts t: options; do
     case $options in
         t)tag=$OPTARG; validateTag ;;
         *)echo "invalid option";;
     esac
 done
-
-echo "VALIDATED_TAG=$tag" >> $GITHUB_ENV
+echo $tag
+# echo "VALIDATED_TAG=$tag" >> $GITHUB_ENV

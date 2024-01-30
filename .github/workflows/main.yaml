@@ -8,10 +8,10 @@
 name: main_workflow
 run-name: Deploy Versrion ${{ github.ref_name }} to ${{ inputs.environment }}
 on:
-  push:
-    branches:
-    - '**'
-  # workflow_dispatch:
+  # push:
+  #   branches:
+  #   - '**'
+  workflow_dispatch:
     inputs:
       app: 
         type: choice
@@ -89,18 +89,19 @@ jobs:
     - name: Get Current Sha 
       id: get_current_sha
       run: echo "currentSha=$(git rev-parse HEAD)"            >> $GITHUB_OUTPUT
-    - name: Create Git Tag
-      id: tag_version
-      uses: mathieudutour/github-tag-action@v6.1
-      with:
-        github_token: ${{ github.token }}
-        custom_tag:   v1.0.2
-        commit_sha:   ${{ steps.get_current_sha.outputs.currentSha }}
-        tag_prefix:   ""
+    # - name: Create Git Tag
+    #   id: tag_version
+    #   uses: mathieudutour/github-tag-action@v6.1
+    #   with:
+    #     github_token: ${{ github.token }}
+    #     custom_tag:   v1.0.2
+    #     commit_sha:   ${{ steps.get_current_sha.outputs.currentSha }}
+    #     tag_prefix:   ""
     - name: Tests
       run: |
         echo $GITHUB_SHA
         echo ${{ steps.get_current_sha.outputs.currentSha }}
+        echo ${{ env.SLACK_DEPLOYMENT_CHANNEL }}
     - name: Checkout Repository
       id: version_bump_checkout
       uses: actions/checkout@v4
@@ -152,24 +153,24 @@ jobs:
   #         echo "The run id is: $GITHUB_RUN_ID"
   #         echo "The GitHub Actor's username is: $GITHUB_ACTOR"
   #         echo "GitHub SHA: $GITHUB_SHA"
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged && startsWith(github.head_ref, 'hotfix/')
-    env:
-      APPS: (events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
-    steps:
-        - name: Checkout Repository
-          id: version_bump_checkout
-          uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-        - id: test
-          run: |
-            echo ${{ inputs.run_integration }}
-            echo "title"
-            ${{ github.event.pull_request.title }}
-            echo "body"
-            ${{ github.event.pull_request.body }}
+  # Explore-GitHub-Actions:
+  #   runs-on: ubuntu-latest
+  #   # if: github.event.pull_request.merged && startsWith(github.head_ref, 'hotfix/')
+  #   env:
+  #     APPS: (events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
+  #   steps:
+  #       - name: Checkout Repository
+  #         id: version_bump_checkout
+  #         uses: actions/checkout@v4
+  #         with:
+  #           fetch-depth: 0
+  #       - id: test
+  #         run: |
+  #           echo ${{ inputs.run_integration }}
+  #           echo "title"
+  #           ${{ github.event.pull_request.title }}
+  #           echo "body"
+  #           ${{ github.event.pull_request.body }}
         # - run: |
         #     APPS=(events-processor alert-eval engine-scheduler alert-admin station-admin customer-admin rule-engine data-api notification-admin subscription-admin msp-admin report-generator ecobox-api engine-configurator value-dashboard-api)
         #     echo ${{ fromJSON(steps.test.outputs.apps) }}

@@ -81,13 +81,16 @@ jobs:
   first: 
     runs-on: ubuntu-latest
     steps:
+    - name: Get Current Sha 
+      id: get_current_sha
+      run: echo "currentSha=$(git rev-parse HEAD)"            >> $GITHUB_OUTPUT
     - name: Create Git Tag
       id: tag_version
       uses: mathieudutour/github-tag-action@v6.1
       with:
         github_token: ${{ github.token }}
         custom_tag:   v1.0.0
-        commit_sha:   main
+        commit_sha:   ${{ steps.get_current_sha.outputs.currentSha }}
         tag_prefix:   ""
     - name: Checkout Repository
       id: version_bump_checkout

@@ -94,7 +94,7 @@ jobs:
       uses: mathieudutour/github-tag-action@v6.1
       with:
         github_token: ${{ github.token }}
-        custom_tag:   v1.0.0
+        custom_tag:   v1.0.1
         commit_sha:   ${{ steps.get_current_sha.outputs.currentSha }}
         tag_prefix:   ""
     - name: Tests

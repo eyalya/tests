@@ -81,6 +81,12 @@ jobs:
   first: 
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout for version bump
+      id: version_bump_checkout
+      uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+          ref: dev
     - name: Get Current Sha 
       id: get_current_sha
       run: echo "currentSha=$(git rev-parse HEAD)"            >> $GITHUB_OUTPUT
@@ -92,6 +98,10 @@ jobs:
         custom_tag:   v1.0.0
         commit_sha:   ${{ steps.get_current_sha.outputs.currentSha }}
         tag_prefix:   ""
+    - name: Tests
+      run: |
+        echo $GITHUB_SHA
+        echo ${{ steps.get_current_sha.outputs.currentSha }}
     - name: Checkout Repository
       id: version_bump_checkout
       uses: actions/checkout@v4

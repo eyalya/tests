@@ -8,9 +8,9 @@
 name: main_workflow
 run-name: Deploy Versrion ${{ github.ref_name }} to ${{ inputs.environment }}
 on:
-  push:
-    branches:
-    - '**'
+  # push:
+  #   branches:
+  #   - '**'
   workflow_dispatch:
     inputs:
       app: 

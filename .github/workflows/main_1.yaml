@@ -12,19 +12,19 @@ on:
         - qa
         - stage
         - prod
-    outputs:
-      bucket_name:
-        value: ${{ jobs.set_variables.outputs.bucket_name }}
-      aws_region:
-        value: ${{ jobs.set_variables.outputs.aws_region }}
-      destribution_id: 
-        value: ${{ jobs.set_variables.outputs.destribution_id }}
-      iam_role:
-        value: ${{ jobs.set_variables.outputs.iam_role }}
-      env:
-        value: ${{ jobs.set_variables.outputs.env }}
-      deployment:
-        value: ${{ jobs.set_variables.outputs.deployment }}
+    # outputs:
+    #   bucket_name:
+    #     value: ${{ jobs.set_variables.outputs.bucket_name }}
+    #   aws_region:
+    #     value: ${{ jobs.set_variables.outputs.aws_region }}
+    #   destribution_id: 
+    #     value: ${{ jobs.set_variables.outputs.destribution_id }}
+    #   iam_role:
+    #     value: ${{ jobs.set_variables.outputs.iam_role }}
+    #   env:
+    #     value: ${{ jobs.set_variables.outputs.env }}
+    #   deployment:
+    #     value: ${{ jobs.set_variables.outputs.deployment }}
           
 jobs:
   set_variables:

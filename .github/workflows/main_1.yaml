@@ -26,6 +26,7 @@ jobs:
             echo "iam_role=${VARS[3]}"         >> $GITHUB_OUTPUT
             echo "env=${VARS[4]}"              >> $GITHUB_OUTPUT
             echo "deployment=${VARS[5]}"       >> $GITHUB_OUTPUT
+            echo "list_apps=(bsbs skss snns)"        >> $GITHUB_OUTPUT
           }
 
           case dev in
@@ -58,4 +59,7 @@ jobs:
       - id: checkvar
         run: |
           echo ${{ steps.set_variables.outputs.env }}
+      - id: checkvar
+        run: |
+          echo "nx -p ${{ steps.set_variables.outputs.list_apps }}"
 

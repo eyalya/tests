@@ -2,29 +2,9 @@ name: set_variables
 run-name: set_variables to ${{ inputs.environment }}
 
 on:
-  workflow_dispatch:
-    environment: 
-        type: choice
-        description: Select the environment
-        required: true
-        options:
-        - dev
-        - qa
-        - stage
-        - prod
-    # outputs:
-    #   bucket_name:
-    #     value: ${{ jobs.set_variables.outputs.bucket_name }}
-    #   aws_region:
-    #     value: ${{ jobs.set_variables.outputs.aws_region }}
-    #   destribution_id: 
-    #     value: ${{ jobs.set_variables.outputs.destribution_id }}
-    #   iam_role:
-    #     value: ${{ jobs.set_variables.outputs.iam_role }}
-    #   env:
-    #     value: ${{ jobs.set_variables.outputs.env }}
-    #   deployment:
-    #     value: ${{ jobs.set_variables.outputs.deployment }}
+  push:
+    branches:
+    - '**'
           
 jobs:
   set_variables:
@@ -48,7 +28,7 @@ jobs:
             echo "deployment::${VARS[5]}"       >> $GITHUB_OUTPUT
           }
 
-          case ${{ inputs.environment }} in
+          case dev in
 
           dev)
             export VARS=(ecoplant-front-end us-east-1 E1A8BNKY661F46 arn:aws:iam::173115710334:role/githubAdmin dev development)

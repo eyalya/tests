@@ -2,34 +2,9 @@ name: set_variables
 run-name: set_variables to ${{ inputs.environment }}
 
 on:
-  workflow_dispatch:
-    inputs:
-      app: 
-        type: choice
-        description: Select the app to build
-        required: true
-        options:
-        - affected
-        - all
-        - events-processor
-        - alert-eval
-        - engine-scheduler
-        - alert-admin
-        - station-admin
-        - customer-admin
-        - rule-engine
-        - data-api
-        - notification-admin
-        - subscription-admin
-        - msp-admin
-        - report-generator
-        - ecobox-api
-        - engine-configurator
-        - value-dashboard-api
-        - import-export-admin
-        - cronjobs
-        - salesforce
-        - engine-validator
+  push:
+    branches:
+    - '**'
           
 jobs:
   set_variables:

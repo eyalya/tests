@@ -20,12 +20,12 @@ jobs:
       - id: set_variables
         run: |
           set_output() {
-            echo "bucket_name::${VARS[0]}"      >> $GITHUB_OUTPUT
-            echo "aws_region::${VARS[1]}"       >> $GITHUB_OUTPUT
-            echo "destribution_id::${VARS[2]}"  >> $GITHUB_OUTPUT
-            echo "iam_role::${VARS[3]}"         >> $GITHUB_OUTPUT
-            echo "env::${VARS[4]}"              >> $GITHUB_OUTPUT
-            echo "deployment::${VARS[5]}"       >> $GITHUB_OUTPUT
+            echo "bucket_name=${VARS[0]}"      >> $GITHUB_OUTPUT
+            echo "aws_region=${VARS[1]}"       >> $GITHUB_OUTPUT
+            echo "destribution_id=${VARS[2]}"  >> $GITHUB_OUTPUT
+            echo "iam_role=${VARS[3]}"         >> $GITHUB_OUTPUT
+            echo "env=${VARS[4]}"              >> $GITHUB_OUTPUT
+            echo "deployment=${VARS[5]}"       >> $GITHUB_OUTPUT
           }
 
           case dev in

@@ -26,7 +26,7 @@ jobs:
             echo "iam_role=${VARS[3]}"         >> $GITHUB_OUTPUT
             echo "env=${VARS[4]}"              >> $GITHUB_OUTPUT
             echo "deployment=${VARS[5]}"       >> $GITHUB_OUTPUT
-            echo "list_apps=(bsbs skss snns)"        >> $GITHUB_OUTPUT
+            echo "list_apps=bsbs skss snns"        >> $GITHUB_OUTPUT
           }
 
           case dev in

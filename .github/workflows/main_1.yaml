@@ -55,7 +55,7 @@ jobs:
             exit 1
             ;;
           esac
-      - id: Check var
+      - id: checkvar
         run: |
           echo ${{ steps.set_variables.outputs.env }}
 

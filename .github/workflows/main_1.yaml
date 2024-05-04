@@ -2,9 +2,34 @@ name: set_variables
 run-name: set_variables to ${{ inputs.environment }}
 
 on:
-  push:
-    branches:
-    - '**'
+  workflow_dispatch:
+    inputs:
+      app: 
+        type: choice
+        description: Select the app to build
+        required: true
+        options:
+        - affected
+        - all
+        - events-processor
+        - alert-eval
+        - engine-scheduler
+        - alert-admin
+        - station-admin
+        - customer-admin
+        - rule-engine
+        - data-api
+        - notification-admin
+        - subscription-admin
+        - msp-admin
+        - report-generator
+        - ecobox-api
+        - engine-configurator
+        - value-dashboard-api
+        - import-export-admin
+        - cronjobs
+        - salesforce
+        - engine-validator
           
 jobs:
   set_variables:
@@ -16,6 +41,7 @@ jobs:
         iam_role: ${{ steps.set_variables.outputs.iam_role }}
         env: ${{ steps.set_variables.outputs.env }}
         deployment: ${{ steps.set_variables.outputs.deployment }}
+        list_apps: ${{ steps.set_variables.outputs.list_apps }}
     steps:
       - id: set_variables
         run: |
@@ -26,7 +52,7 @@ jobs:
             echo "iam_role=${VARS[3]}"         >> $GITHUB_OUTPUT
             echo "env=${VARS[4]}"              >> $GITHUB_OUTPUT
             echo "deployment=${VARS[5]}"       >> $GITHUB_OUTPUT
-            echo "list_apps=bsbs skss snns"        >> $GITHUB_OUTPUT
+            echo "list_apps=bsbs skss snns"    >> $GITHUB_OUTPUT
           }
 
           case dev in
@@ -63,3 +89,11 @@ jobs:
         run: |
           echo "nx -p ${{ steps.set_variables.outputs.list_apps }}"
 
+  deploy:
+      needs:
+        - set_variables
+      runs-on: ubuntu-latest
+      steps:
+      - id: checkvar
+        run: |
+          echo ${{ needs.set_variables.outputs.list_apps }}

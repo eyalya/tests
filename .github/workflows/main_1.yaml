@@ -59,7 +59,7 @@ jobs:
       - id: checkvar
         run: |
           echo ${{ steps.set_variables.outputs.env }}
-      - id: checkvar
+      - id: checklist
         run: |
           echo "nx -p ${{ steps.set_variables.outputs.list_apps }}"
 

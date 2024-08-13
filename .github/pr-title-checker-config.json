@@ -1,0 +1,17 @@
+{
+    "LABEL": {
+      "name": "title needs formatting",
+      "color": "EEEEEE"
+    },
+    "CHECKS": {
+      "prefixes": ["APP-", "EFS-", "DEVOPS-"],
+      "regexp": "docs\\([0-9]\\): ",
+      "regexpFlags": "i",
+      "ignoreLabels" : ["dont-check-PRs-with-this-label", "meta"]
+    },
+    "MESSAGES": {
+      "success": "Title Check Is Formatted Correctly",
+      "failure": "Failing Title Check Test",
+      "notice": ""
+    }
+  }

@@ -63,6 +63,7 @@ jobs:
         run: |
           if [[ ${{ github.event.pull_request.title }} =~ ^(APP-[0-9]+|EFS-[0-9]+|DEVOPS-[0-9]+) ]]; then
           TICKET_NUMBER="${BASH_REMATCH[1]}"
+          echo Ticket is $TICKET_NUMBER
           echo "TICKET_NUMBER=$TICKET_NUMBER"   >> $GITHUB_OUTPUT
           else
             echo "PR source branch name does not start with ticket number"

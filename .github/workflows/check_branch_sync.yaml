@@ -1,37 +1,37 @@
-name: check_sync
-run-name: Check Sync
+# name: check_sync
+# run-name: Check Sync
 
-on:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - edited
-      - synchronize
+# on:
+#   pull_request:
+#     types:
+#       - opened
+#       - reopened
+#       - edited
+#       - synchronize
 
-jobs:
-  check-sync:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+# jobs:
+#   check-sync:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Fetch base branch
-        run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }}
+#       - name: Fetch base branch
+#         run: |
+#           git fetch origin ${{ github.event.pull_request.base.ref }}
 
-      - name: Check if head is synced with base
-        run: |
-          BASE_REF=${{ github.event.pull_request.base.ref }}
-          HEAD_REF=$(git rev-parse HEAD)
-          BASE_COMMIT=$(git rev-parse origin/${BASE_REF})
+#       - name: Check if head is synced with base
+#         run: |
+#           BASE_REF=${{ github.event.pull_request.base.ref }}
+#           HEAD_REF=$(git rev-parse HEAD)
+#           BASE_COMMIT=$(git rev-parse origin/${BASE_REF})
 
-          echo "Head Ref: $HEAD_REF"
-          echo "Base Ref: $BASE_COMMIT"
+#           echo "Head Ref: $HEAD_REF"
+#           echo "Base Ref: $BASE_COMMIT"
 
-          if [ "$HEAD_REF" != "$BASE_COMMIT" ]; then
-            echo "::error::Head ref is not synced with base ref. Please merge the base branch into your head branch."
-            exit 1
-          else
-            echo "Head ref is synced with base ref."
-          fi
+#           if [ "$HEAD_REF" != "$BASE_COMMIT" ]; then
+#             echo "::error::Head ref is not synced with base ref. Please merge the base branch into your head branch."
+#             exit 1
+#           else
+#             echo "Head ref is synced with base ref."
+#           fi

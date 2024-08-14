@@ -3,7 +3,11 @@ run-name: Check Sync
 
 on:
   pull_request:
-    types: [synchronize, opened, reopened]
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
 
 jobs:
   check-sync:

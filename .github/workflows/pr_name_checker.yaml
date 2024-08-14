@@ -2,7 +2,7 @@ name: pr_title_checker
 run-name: PR Title Check
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
     - '*'
     types:

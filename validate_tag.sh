@@ -32,3 +32,4 @@ while getopts t: options; do
 done
 echo "APP_VERSION: $tag"
 echo "APP_VERSION=$tag" >> $GITHUB_ENV   
+

@@ -2,9 +2,13 @@ name: set_variables
 run-name: set_variables to ${{ inputs.environment }}
 
 on:
-  push:
+  pull_request:
     branches:
-    - '**'
+    - '*'
+    types:
+      - closed
+      - synchronize
+      - edited
           
 jobs:
   set_variables:
@@ -59,6 +63,14 @@ jobs:
           esac
       - id: checkvar
         run: |
+          if [[ ${{ github.event.pull_request.title }} =~ ^(APP-[0-9]+|EFS-[0-9]+|DEVOPS-[0-9]+) ]]; then
+          TICKET_NUMBER="${BASH_REMATCH[1]}"
+          echo Ticket is $TICKET_NUMBER
+          echo "TICKET_NUMBER=$TICKET_NUMBER"   >> $GITHUB_OUTPUT
+          else
+            echo "PR source branch name does not start with ticket number"
+            exit 1
+          fi
           echo ${{ steps.set_variables.outputs.env }}
       - id: checklist
         run: |

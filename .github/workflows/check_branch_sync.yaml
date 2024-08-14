@@ -1,4 +1,5 @@
-name: CheckSync
+name: check_sync
+run-name: Check Sync
 
 on:
   pull_request:

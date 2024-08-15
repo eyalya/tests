@@ -2,13 +2,16 @@ name: set_variables
 run-name: set_variables to ${{ inputs.environment }}
 
 on:
-  pull_request:
+  push: 
     branches:
     - '*'
-    types:
-      - closed
-      - synchronize
-      - edited
+  # pull_request:
+  #   branches:
+  #   - '*'
+  #   types:
+  #     - closed
+  #     - synchronize
+  #     - edited
           
 jobs:
   set_variables:

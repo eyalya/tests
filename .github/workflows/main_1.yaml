@@ -34,6 +34,7 @@ jobs:
           echo "APP_VERSION=$APP_VERSION" >> $GITHUB_OUTPUT
       - id: set_variables
         run: |
+         echo ${{ steps.set_version.outputs.APP_VERSION }}
           set_output() {
             echo "bucket_name=${VARS[0]}"      >> $GITHUB_OUTPUT
             echo "aws_region=${VARS[1]}"       >> $GITHUB_OUTPUT

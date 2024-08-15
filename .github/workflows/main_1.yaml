@@ -22,6 +22,13 @@ jobs:
         deployment: ${{ steps.set_variables.outputs.deployment }}
         list_apps: ${{ steps.set_variables.outputs.list_apps }}
     steps:
+      - id: set_version
+        run: |
+          TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S")
+          TICKET_NUMBER=DEVOPS-001
+          APP_VERSION="$TIMESTAMP|$TICKET_NUMBER"
+          echo APP_VERSION=$APP_VERSION
+          echo "APP_VERSION=$APP_VERSION" >> $GITHUB_OUTPUT
       - id: set_variables
         run: |
           set_output() {
